@@ -1,0 +1,343 @@
+/*
+*SCRIPT PARA CREAR BASE DE DATOS EJEMPLO EN IBM ON CLOUD
+*/
+------------------------------------------------
+-- DDL Statements for Table "DEPARTMENT"
+------------------------------------------------
+ 
+
+CREATE TABLE "DEPARTMENT"  (
+		  "DEPTNO" CHAR(3 OCTETS) NOT NULL , 
+		  "DEPTNAME" VARCHAR(36 OCTETS) NOT NULL , 
+		  "MGRNO" CHAR(6 OCTETS) , 
+		  "ADMRDEPT" CHAR(3 OCTETS) NOT NULL , 
+		  "LOCATION" CHAR(16 OCTETS) )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "DEPARTMENT"
+
+ALTER TABLE "DEPARTMENT" 
+	ADD CONSTRAINT "PK_DEPARTMENT" PRIMARY KEY
+		("DEPTNO")
+	ENFORCED;
+
+
+
+-- DDL Statements for Indexes on Table "DEPARTMENT"
+
+SET SYSIBM.NLS_STRING_UNITS = 'SYSTEM';
+
+CREATE INDEX "XDEPT2" ON "DEPARTMENT" 
+		("MGRNO" ASC)
+		
+		COMPRESS NO 
+		INCLUDE NULL KEYS ALLOW REVERSE SCANS;
+
+-- DDL Statements for Indexes on Table "DEPARTMENT"
+
+SET SYSIBM.NLS_STRING_UNITS = 'SYSTEM';
+
+CREATE INDEX "XDEPT3" ON "DEPARTMENT" 
+		("ADMRDEPT" ASC)
+		
+		COMPRESS NO 
+		INCLUDE NULL KEYS ALLOW REVERSE SCANS;
+------------------------------------------------
+-- DDL Statements for Table "EMPLOYEE"
+------------------------------------------------
+ 
+
+CREATE TABLE "EMPLOYEE"  (
+		  "EMPNO" CHAR(6 OCTETS) NOT NULL , 
+		  "FIRSTNME" VARCHAR(12 OCTETS) NOT NULL , 
+		  "MIDINIT" CHAR(1 OCTETS) , 
+		  "LASTNAME" VARCHAR(15 OCTETS) NOT NULL , 
+		  "WORKDEPT" CHAR(3 OCTETS) , 
+		  "PHONENO" CHAR(4 OCTETS) , 
+		  "HIREDATE" DATE , 
+		  "JOB" CHAR(8 OCTETS) , 
+		  "EDLEVEL" SMALLINT NOT NULL , 
+		  "SEX" CHAR(1 OCTETS) , 
+		  "BIRTHDATE" DATE , 
+		  "SALARY" DECIMAL(9,2) , 
+		  "BONUS" DECIMAL(9,2) , 
+		  "COMM" DECIMAL(9,2) , 
+		  "NSS" INTEGER )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "EMPLOYEE"
+
+ALTER TABLE "EMPLOYEE" 
+	ADD CONSTRAINT "PK_EMPLOYEE" PRIMARY KEY
+		("EMPNO")
+	ENFORCED;
+
+
+
+-- DDL Statements for Indexes on Table "EMPLOYEE"
+
+SET SYSIBM.NLS_STRING_UNITS = 'SYSTEM';
+
+CREATE INDEX "XEMP2" ON "EMPLOYEE" 
+		("WORKDEPT" ASC)
+		
+		COMPRESS NO 
+		INCLUDE NULL KEYS ALLOW REVERSE SCANS;
+------------------------------------------------
+-- DDL Statements for Table "EMP_PHOTO"
+------------------------------------------------
+ 
+
+CREATE TABLE "EMP_PHOTO"  (
+		  "EMPNO" CHAR(6 OCTETS) NOT NULL , 
+		  "PHOTO_FORMAT" VARCHAR(10 OCTETS) NOT NULL , 
+		  "PICTURE" BLOB(102400) LOGGED NOT COMPACT )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "EMP_PHOTO"
+
+ALTER TABLE "EMP_PHOTO" 
+	ADD CONSTRAINT "PK_EMP_PHOTO" PRIMARY KEY
+		("EMPNO",
+		 "PHOTO_FORMAT")
+	ENFORCED;
+
+
+------------------------------------------------
+-- DDL Statements for Table "EMP_RESUME"
+------------------------------------------------
+ 
+
+CREATE TABLE "EMP_RESUME"  (
+		  "EMPNO" CHAR(6 OCTETS) NOT NULL , 
+		  "RESUME_FORMAT" VARCHAR(10 OCTETS) NOT NULL , 
+		  "RESUME" CLOB(5120 OCTETS) LOGGED NOT COMPACT )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "EMP_RESUME"
+
+ALTER TABLE "EMP_RESUME" 
+	ADD CONSTRAINT "PK_EMP_RESUME" PRIMARY KEY
+		("EMPNO",
+		 "RESUME_FORMAT")
+	ENFORCED;
+
+
+------------------------------------------------
+-- DDL Statements for Table "PROJECT"
+------------------------------------------------
+ 
+
+CREATE TABLE "PROJECT"  (
+		  "PROJNO" CHAR(6 OCTETS) NOT NULL , 
+		  "PROJNAME" VARCHAR(24 OCTETS) NOT NULL WITH DEFAULT '' , 
+		  "DEPTNO" CHAR(3 OCTETS) NOT NULL , 
+		  "RESPEMP" CHAR(6 OCTETS) NOT NULL , 
+		  "PRSTAFF" DECIMAL(5,2) , 
+		  "PRSTDATE" DATE , 
+		  "PRENDATE" DATE , 
+		  "MAJPROJ" CHAR(6 OCTETS) )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "PROJECT"
+
+ALTER TABLE "PROJECT" 
+	ADD CONSTRAINT "PK_PROJECT" PRIMARY KEY
+		("PROJNO")
+	ENFORCED;
+
+
+
+-- DDL Statements for Indexes on Table "PROJECT"
+
+SET SYSIBM.NLS_STRING_UNITS = 'SYSTEM';
+
+CREATE INDEX "XPROJ2" ON "PROJECT" 
+		("RESPEMP" ASC)
+		
+		COMPRESS NO 
+		INCLUDE NULL KEYS ALLOW REVERSE SCANS;
+------------------------------------------------
+-- DDL Statements for Table "PROJACT"
+------------------------------------------------
+ 
+
+CREATE TABLE "PROJACT"  (
+		  "PROJNO" CHAR(6 OCTETS) NOT NULL , 
+		  "ACTNO" SMALLINT NOT NULL , 
+		  "ACSTAFF" DECIMAL(5,2) , 
+		  "ACSTDATE" DATE NOT NULL , 
+		  "ACENDATE" DATE )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "PROJACT"
+
+ALTER TABLE "PROJACT" 
+	ADD CONSTRAINT "PK_PROJACT" PRIMARY KEY
+		("PROJNO",
+		 "ACTNO",
+		 "ACSTDATE")
+	ENFORCED;
+
+
+------------------------------------------------
+-- DDL Statements for Table "EMPPROJACT"
+------------------------------------------------
+ 
+
+CREATE TABLE "EMPPROJACT"  (
+		  "EMPNO" CHAR(6 OCTETS) NOT NULL , 
+		  "PROJNO" CHAR(6 OCTETS) NOT NULL , 
+		  "ACTNO" SMALLINT NOT NULL , 
+		  "EMPTIME" DECIMAL(5,2) , 
+		  "EMSTDATE" DATE , 
+		  "EMENDATE" DATE )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+
+
+
+------------------------------------------------
+-- DDL Statements for Table "ACT"
+------------------------------------------------
+ 
+
+CREATE TABLE "ACT"  (
+		  "ACTNO" SMALLINT NOT NULL , 
+		  "ACTKWD" CHAR(6 OCTETS) NOT NULL , 
+		  "ACTDESC" VARCHAR(20 OCTETS) NOT NULL )   
+		 IN "USERSPACE1"  
+		 ORGANIZE BY ROW; 
+
+
+-- DDL Statements for Primary Key on Table "ACT"
+
+ALTER TABLE "ACT" 
+	ADD CONSTRAINT "PK_ACT" PRIMARY KEY
+		("ACTNO")
+	ENFORCED;
+
+
+
+-- DDL Statements for Indexes on Table "ACT"
+
+SET SYSIBM.NLS_STRING_UNITS = 'SYSTEM';
+
+CREATE UNIQUE INDEX "XACT2" ON "ACT" 
+		("ACTNO" ASC,
+		 "ACTKWD" ASC)
+		
+		COMPRESS NO 
+		INCLUDE NULL KEYS ALLOW REVERSE SCANS;
+
+
+
+-- DDL Statements for Foreign Keys on Table "EMPLOYEE"
+
+ALTER TABLE "EMPLOYEE" 
+	ADD CONSTRAINT "RED" FOREIGN KEY
+		("WORKDEPT")
+	REFERENCES "DEPARTMENT"
+		("DEPTNO")
+	ON DELETE SET NULL
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+-- DDL Statements for Check Constraints on Table "EMPLOYEE"
+
+SET SYSIBM.NLS_STRING_UNITS = 'SYSTEM';
+
+ALTER TABLE "EMPLOYEE" 
+	ADD CONSTRAINT "NUMBER" CHECK 
+		(PHONENO >= '0000' AND PHONENO <= '9999')
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+-- DDL Statements for Foreign Keys on Table "EMP_PHOTO"
+
+ALTER TABLE "EMP_PHOTO" 
+	ADD CONSTRAINT "FK_EMP_PHOTO" FOREIGN KEY
+		("EMPNO")
+	REFERENCES "EMPLOYEE"
+		("EMPNO")
+	ON DELETE RESTRICT
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+-- DDL Statements for Foreign Keys on Table "EMP_RESUME"
+
+ALTER TABLE "EMP_RESUME" 
+	ADD CONSTRAINT "FK_EMP_RESUME" FOREIGN KEY
+		("EMPNO")
+	REFERENCES "EMPLOYEE"
+		("EMPNO")
+	ON DELETE RESTRICT
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+-- DDL Statements for Foreign Keys on Table "PROJECT"
+
+ALTER TABLE "PROJECT" 
+	ADD CONSTRAINT "FK_PROJECT_1" FOREIGN KEY
+		("DEPTNO")
+	REFERENCES "DEPARTMENT"
+		("DEPTNO")
+	ON DELETE RESTRICT
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+ALTER TABLE "PROJECT" 
+	ADD CONSTRAINT "FK_PROJECT_2" FOREIGN KEY
+		("RESPEMP")
+	REFERENCES "EMPLOYEE"
+		("EMPNO")
+	ON DELETE RESTRICT
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+-- DDL Statements for Foreign Keys on Table "PROJACT"
+
+ALTER TABLE "PROJACT" 
+	ADD CONSTRAINT "RPAP" FOREIGN KEY
+		("PROJNO")
+	REFERENCES "PROJECT"
+		("PROJNO")
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+-- DDL Statements for Foreign Keys on Table "ACT"
+
+ALTER TABLE "ACT" 
+	ADD CONSTRAINT "RPAA" FOREIGN KEY
+		("ACTNO")
+	REFERENCES "ACT"
+		("ACTNO")
+	ON DELETE RESTRICT
+	ON UPDATE NO ACTION
+	ENFORCED
+	ENABLE QUERY OPTIMIZATION;
+
+
+
+
